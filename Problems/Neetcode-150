@@ -1,0 +1,65 @@
+1. 347. Top K Frequent Elements - medium
+
+Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+
+Example 1:
+
+Input: nums = [1,1,1,2,2,3], k = 2
+
+Output: [1,2]
+
+Approach 1: Bucket Sort
+
+public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        List<Integer>[] freq = new ArrayList[nums.length + 1];
+
+        for(int i = 0; i<freq.length; i++){
+            freq[i] = new ArrayList<>();
+        }
+        
+        for(int i : nums) map.put(i, map.getOrDefault(i, 0)+1);
+
+        // Bucket Sort: Assign frequencies to keys first (using map)
+        // take an array, then assign keys to frequencies which will be a list of keys
+        // to each frequency
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){   
+            freq[entry.getValue()].add(entry.getKey());                                         
+        }
+
+        int [] res = new int[k];
+        int index = 0;
+        // start from end, take values until k is satisfied
+        for(int i = freq.length - 1; i>0 && index < k;i--){
+            for(int x : freq[i]){
+                res[index++] = x;
+                if(index > k) return res;
+            }
+        }
+        return res;
+    }
+
+Approach 2: Heap (Max Heap)
+
+  public int[] topKFrequent(int[] nums, int k) {
+     Map<Integer, Integer> map = new HashMap<>();
+  
+     for(int i : nums){
+      map.put(i, map.getOrDefault(i, 0)+1);
+     }
+  
+     PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]);
+  
+     for(Map.Entry<Integer, Integer> entry: map.entrySet()){
+      pq.offer(new int [] {entry.getValue(), entry.getKey()});
+      if(pq.size() > k){
+          pq.poll();
+      }
+     }
+  
+     int [] res = new int[k];
+     for(int i=0;i<k;i++){
+      res[i] = pq.poll()[1];
+     }
+     return res; 
+}
