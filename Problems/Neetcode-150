@@ -21,7 +21,7 @@ public int[] topKFrequent(int[] nums, int k) {
         for(int i : nums) map.put(i, map.getOrDefault(i, 0)+1);
 
         // Bucket Sort: Assign frequencies to keys first (using map)
-        // take an array, then assign keys to frequencies which will be a list of keys
+        // take an array, then make frequencies the key and append the values (nums[i]).
         // to each frequency
         for(Map.Entry<Integer, Integer> entry : map.entrySet()){   
             freq[entry.getValue()].add(entry.getKey());                                         
@@ -63,3 +63,53 @@ Approach 2: Heap (Max Heap)
      }
      return res; 
 }
+
+
+2. 271. Encode and Decode Strings - medium
+
+Design an algorithm to encode a list of strings to a single string. The encoded string is then decoded back to the original list of strings.
+
+Please implement encode and decode
+
+Example 1:
+
+Input: ["neet","code","love","you"]
+
+Output:["neet","code","love","you"]
+
+Approach: First store the length, separator and string - Encode
+          initialize i, j. Parse until you find the separator, save the length and assign the string via (substring) to the list.
+
+ public String encode(List<String> strs) {
+        if( strs.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for(String i : strs){
+            sb.append(i.length()).append('#').append(i);
+        }
+
+        return sb.toString();
+    }
+
+    public List<String> decode(String str) {
+        if(str.length() == 0) return new ArrayList<>();
+
+        List<String> arr = new ArrayList<>();
+
+        int i = 0;
+        int j = 0;
+
+        while(i < str.length()){
+            j = i + 1;
+
+            while( str.charAt(j) != '#'){
+                j++;
+            }
+
+            int length = Integer.parseInt(str.substring(i, j));
+            i = j + 1;
+            j = i + length;
+            arr.add(str.substring(i, j));
+            i = j;
+        }
+        return arr;
+    
