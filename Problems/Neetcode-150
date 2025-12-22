@@ -112,4 +112,36 @@ Approach: First store the length, separator and string - Encode
             i = j;
         }
         return arr;
-    
+
+3. 238. Product of Array Except Self - Medium
+
+Given an integer array nums, return an array output where output[i] is the product of all the elements of nums except nums[i].
+
+Each product is guaranteed to fit in a 32-bit integer.
+
+Example 1:
+
+Input: nums = [1,2,4,6]
+
+Output: [48,24,12,8]
+
+Approach : Prefix - Suffix Product
+
+Calculate prefix product in res [] array, initialize a varibale, start from last, multiply the indices of res with nums[i]
+
+public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+       
+        int [] res = new int[n];
+
+        res[0] = 1;
+        for(int i = 1; i<n;i++){
+            res[i] = nums[i-1] * res[i-1];
+        }
+        int suff = 1;
+        for(int i = n - 1; i>=0;i--){
+            res[i] *= suff;
+            suff *= nums[i];
+        }
+        return res;
+    }
