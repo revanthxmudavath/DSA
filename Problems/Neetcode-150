@@ -145,3 +145,88 @@ public int[] productExceptSelf(int[] nums) {
         }
         return res;
     }
+
+3. 2226. Maximum Candies Allocated to K Children - Medium
+You are given a 0-indexed integer array candies. Each element in the array denotes a pile of candies of size candies[i]. 
+You can divide each pile into any number of sub piles, but you cannot merge two piles together.
+
+You are also given an integer k. You should allocate piles of candies to k children such that each child gets the same number of candies. 
+Each child can be allocated candies from only one pile of candies and some piles of candies may go unused.
+
+Return the maximum number of candies each child can get.
+
+(or) 
+
+Distribute Energy Packets
+
+You are given a list packets, where packets[i] represents the size of the i-th energy packet.
+Each packet can be split into any number of smaller sub-packets, but you cannot merge packets together.
+
+You are also given integer agents, representing the number of agents who must each receive one packet of the same size.
+Each agent must receive their allocation from one sub-packet only, and some packets may go unused.
+
+Return the maximum number of units each agent can receive equally.
+
+Example 1:
+
+Input:
+packets = [7, 10, 4], agents = 4
+Output: 4
+
+Explanation:
+
+Divide 7 → 4 + 3
+
+Divide 10 → 2 + 4 + 4
+
+Now have 4 packets of size 4
+
+Total: [4, 3, 2, 4, 4]
+
+Assign 4, 4, 4, 4 → to 4 agents
+Maximum equal allocation = 4
+
+
+Example 2:
+
+Input: candies = [5,8,6], k = 3
+Output: 5
+Explanation: We can divide candies[1] into 2 piles of size 5 and 3, 
+and candies[2] into 2 piles of size 5 and 1. We now have five piles of candies of sizes 5, 5, 3, 5, and 1. 
+We can allocate the 3 piles of size 5 to 3 children. It can be proven that each child cannot receive more than 5 candies.
+
+Approach: Binary Search on x
+Explanation: For a candidate packet size x, each original packet of size s can produce s // x sub-packets of size x.
+If sum(s // x for s in packets) >= agents, then size x is feasible.
+
+public int maximumCandies(int[] candies, long k) {
+        long total_candies = 0;
+        for(long i : candies) total_candies += candies;
+        int best = 0;
+        
+        if (total_candies < k) return 0;
+        int r = Integer.MIN_VALUE;
+        for (int i : candies) {
+            r = (i > r) ? i : r;
+        }
+        int l = 1;
+        
+        while (l <= r) {
+            long count = 0;
+            int mid = l + (r - l) / 2;
+        
+            for (int s : candies) {
+                count += (s / mid);
+        
+                if (count >= k) break;
+            }
+        
+            if (count >= k) {
+                best = mid;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return best;
+        }
