@@ -1,4 +1,4 @@
-1. 3637. Trionic Array I
+# 1. 3637. Trionic Array I
   
 You are given an integer array nums of length n.
 
@@ -14,7 +14,7 @@ Example 1:
 Input: nums = [1,3,5,4,2,6]
 
 Output: true
-
+```
 public boolean isTrionic(int[] nums) {
         if(nums.length <= 3) return false;
         int i = 0;
@@ -30,8 +30,9 @@ public boolean isTrionic(int[] nums) {
         }
         return true;
     }
+```
 
-2. 1653. Minimum Deletions to Make String Balanced - Medium
+# 2. 1653. Minimum Deletions to Make String Balanced - Medium
          
 You are given a string s consisting only of characters 'a' and 'b'​​​​.
 
@@ -52,6 +53,7 @@ Delete the characters at 0-indexed positions 3 and 6 ("aababbab" -> "aabbbb").
 
 Approach - Greedy : count the number of b's once we see an 'a', delete the b's we see after it and increase counter to store the deletions required to keep the string balanced.
 
+```
 class Solution:
     def minimumDeletions(self, s: str) -> int:
         res = 0
@@ -63,3 +65,4 @@ class Solution:
                 res += 1
                 b -= 1
         return res
+```
