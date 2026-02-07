@@ -30,3 +30,36 @@ public boolean isTrionic(int[] nums) {
         }
         return true;
     }
+
+2. 1653. Minimum Deletions to Make String Balanced - Medium
+         
+You are given a string s consisting only of characters 'a' and 'b'​​​​.
+
+You can delete any number of characters in s to make s balanced. s is balanced if there is no pair of indices (i,j) such that i < j and s[i] = 'b' and s[j]= 'a'.
+
+Return the minimum number of deletions needed to make s balanced.
+
+
+
+Example 1:
+
+Input: s = "aababbab"
+Output: 2
+Explanation: You can either:
+Delete the characters at 0-indexed positions 2 and 6 ("aababbab" -> "aaabbb"), or
+Delete the characters at 0-indexed positions 3 and 6 ("aababbab" -> "aabbbb").
+
+
+Approach - Greedy : count the number of b's once we see an 'a', delete the b's we see after it and increase counter to store the deletions required to keep the string balanced.
+
+class Solution:
+    def minimumDeletions(self, s: str) -> int:
+        res = 0
+        b = 0
+        for i in s:
+            if i == 'b':
+                b += 1
+            elif b>0:
+                res += 1
+                b -= 1
+        return res
