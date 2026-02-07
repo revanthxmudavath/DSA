@@ -66,3 +66,34 @@ class Solution:
                 b -= 1
         return res
 ```
+
+# 3. 334. Increasing Triplet Subsequence - Medium
+
+Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]
+Output: true
+Explanation: Any triplet where i < j < k is valid.
+
+Approach - Greedy + Prefix Min tracking: Check if i is less than first if not check with second if not return true
+
+```
+class Solution:
+    def increasingTriplet(self, nums: List[int]) -> bool:
+        if len(nums) <= 2: return False
+
+        first = float(inf)
+        second = float(inf)
+
+        for i in nums:
+
+            if i <= first:
+                first = i
+            elif i <= second:
+                second = i
+            else:
+                return True
+        return False
+```
