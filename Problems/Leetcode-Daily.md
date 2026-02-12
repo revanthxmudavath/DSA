@@ -175,3 +175,68 @@ Approach: Two pointers, one to find none zero digit, if yes, swap with l and inc
                 l += 1
         
 ```
+
+# 6. Longest Balanced Substring - I : medium
+
+You are given a string s consisting of lowercase English letters.
+
+A substring of s is called balanced if all distinct characters in the substring appear the same number of times.
+
+Return the length of the longest balanced substring of s.
+
+Example 1:
+
+Input: s = "abbac"
+
+Output: 4
+
+Explanation:
+
+The longest balanced substring is "abba" because both distinct characters 'a' and 'b' each appear exactly 2 times.
+
+Approach: Hashmap: Iterate twice, i & j from 0 to n - 1, add the frequencies in the map, and check if the map is unique with balanced characters or not. If yes, attach the max length (j - i + 1) lest skip
+
+
+```
+public int longestBalanced(String s) {
+
+        int maxL = 0;
+        
+        for(int i = 0; i<s.length();i++){
+            int freq[] = new int[26];
+
+            for(int j = i; j<s.length(); j++){
+
+                int c = s.charAt(j) - 'a';
+
+                freq[c]++;
+
+                if(checkB(freq)) {
+                    maxL = Math.max(maxL, j - i + 1);
+                }
+            }
+        }
+
+        return maxL;
+
+    }
+
+    private boolean checkB(int [] ans) {
+        int common = 0;
+
+        for(int i = 0; i<ans.length; i++){
+
+
+            if( ans[i] == 0 ) continue;
+
+            if ( common == 0) common = ans[i];
+
+
+            else if ( ans[i] != common) return false;
+        }
+
+        return true;
+    }
+
+```
+
