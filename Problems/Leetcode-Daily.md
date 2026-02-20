@@ -240,3 +240,56 @@ public int longestBalanced(String s) {
 
 ```
 
+# 7. 761. Special Binary String - Hard
+
+Special binary strings are binary strings with the following two properties:
+
+The number of 0's is equal to the number of 1's.
+Every prefix of the binary string has at least as many 1's as 0's.
+You are given a special binary string s.
+
+A move consists of choosing two consecutive, non-empty, special substrings of s, and swapping them. Two strings are consecutive if the last character of the first string is exactly one index before the first character of the second string.
+
+Return the lexicographically largest resulting string possible after applying the mentioned operations on the string.
+
+Example 1:
+
+Input: s = "11011000"
+Output: "11100100"
+Explanation: The strings "10" [occuring at s[1]] and "1100" [at s[3]] are swapped.
+This is the lexicographically largest string possible after some number of swaps. 
+
+Approach: Keep track of 1's and 0's until they balance out. If balanced, check the substrings from j+1 till i to find the balanced substrings recursively. Add them in List and sort in reverseorder before returning as a string
+
+```
+ public String makeLargestSpecial(String s) {
+        if (s.length() == 0) return "";
+
+        List<String> arr = new ArrayList<>();
+        int count = 0; // track the balance between 1 and 0
+
+        int i = 0;
+        int j = 0;
+        
+
+        for(i = 0; i<s.length(); i++){
+
+            count += (s.charAt(i) == '1') ? 1 : -1;
+
+            if( count == 0) {
+                String inner = makeLargestSpecial(s.substring(j + 1, i));
+
+                String complete = "1" + inner + "0";
+
+                arr.add(complete);
+                
+                j = i + 1;
+            }
+        }
+
+        Collections.sort(arr, Collections.reverseOrder()); 
+        // arr.sort(Comparator.reverseOrder());
+
+        return String.join("", arr);
+```
+
