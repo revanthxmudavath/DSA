@@ -363,3 +363,44 @@ public int sumRootToLeaf(TreeNode root) {
     }
 
 ```
+
+# 10. 1356. Sort Integers by The Number of 1 Bits - Easy
+
+You are given an integer array arr. Sort the integers in the array in ascending order by the number of 1's in their binary representation and in case of two or more integers have the same number of 1's you have to sort them in ascending order.
+
+Return the array after sorting it.
+Example 1:
+
+Input: arr = [0,1,2,3,4,5,6,7,8]
+Output: [0,1,2,4,8,3,5,6,7]
+Explantion: [0] is the only integer with 0 bits.
+[1,2,4,8] all have 1 bit.
+[3,5,6] have 2 bits.
+[7] has 3 bits.
+The sorted array by bits is [0,1,2,4,8,3,5,6,7]
+
+Approach: TreeMap < integer, priorityqueue>, store the bit counts and its related numbers (they are automatically sorted). Then retrieve and store in an array with a moving index.
+
+```
+public int[] sortByBits(int[] arr) {
+
+        TreeMap<Integer, PriorityQueue<Integer>> map = new TreeMap<>();
+
+        for(int i : arr) {
+            int bits = Integer.bitCount(i);
+            map.putIfAbsent(bits, new PriorityQueue<>());
+            map.get(bits).add(i);
+        } 
+
+        int [] nums = new int[arr.length];
+        int idx = 0;
+
+        for(int i : map.keySet()){
+            PriorityQueue<Integer> pq = map.get(i);
+            while(!pq.isEmpty()) nums[idx++] = pq.poll();
+        }
+
+        return nums;
+        
+    }
+```
