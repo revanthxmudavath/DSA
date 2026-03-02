@@ -477,3 +477,73 @@ class Solution {
     }
 }
 ```
+
+
+# 13. 1536. Minimum Swaps to Arrange a Binary Grid - Medium
+
+Given an n x n binary grid, in one step you can choose two adjacent rows of the grid and swap them.
+
+A grid is said to be valid if all the cells above the main diagonal are zeros.
+
+Return the minimum number of steps needed to make the grid valid, or -1 if the grid cannot be valid.
+
+The main diagonal of a grid is the diagonal that starts at cell (1, 1) and ends at cell (n, n).
+
+Approach: Store the last ending zeroes in an array, for each row you need n - row - 1 -> 0's to satisfy the condition. We store them in an array. In another loop, check for each row, if you found the n - row - 1th row, calculate the steps required to swap and swap the rows. o(n^2)
+
+
+```
+
+public int minSwaps(int[][] grid) {
+        
+        int arr [] = new int[ grid.length];
+
+        int n = grid.length;
+
+        for(int i = 0; i<n;i++){
+            int count = 0;
+            int j = n - 1;
+
+            while( j >= 0 && grid[i][j]==0){
+                count++;
+                j--;
+            }
+
+            arr[i] = count;
+        }
+
+
+        int steps = 0;
+
+        for(int i = 0; i<n;i++){
+            int need = n - i - 1;
+
+            int j = i;
+
+            while( j < n && arr[j] < need){
+                j++;
+            }
+
+            if (j == n) return -1;
+
+            steps += j - i;
+
+            while ( j > i){
+                swap(arr, j, j-1);
+                j--;
+            }
+            
+            
+            }
+            
+            return steps;
+               }
+
+    private void swap(int [] arr, int x, int y){
+        int temp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = temp;
+
+    }
+
+```
