@@ -547,3 +547,37 @@ public int minSwaps(int[][] grid) {
     }
 
 ```
+
+# 14 1582. Special Positions in a Binary Matrix - Easy
+
+Given an m x n binary matrix mat, return the number of special positions in mat.
+A position (i, j) is called special if mat[i][j] == 1 and all other elements in row i and column j are 0 (rows and columns are 0-indexed).
+
+```
+public int numSpecial(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        int count=0;
+        int[] rowsum = new int[n];
+        int[] colsum = new int[m];
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                rowsum[i] += matrix[i][j];
+                colsum[j] += matrix[i][j];
+            }
+        }
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(matrix[i][j] == 1 && rowsum[i] == 1 && colsum[j] == 1){
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    
+    }
+```
